@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<?import javafx.scene.control.Button?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.melvinxalexis.machineslotproject.controllers.SlotController">
+   <FlowPane prefHeight="200.0" prefWidth="200.0" alignment="CENTER">
+      <children>
+      
+          <FlowPane prefHeight="166.0" prefWidth="1920.0">
+              <children>
+                  <ImageView fx:id="iv1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv3" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv5" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+              </children>
+          </FlowPane>
+          <FlowPane prefHeight="166.0" prefWidth="1920.0">
+              <children>
+                  <ImageView fx:id="iv6" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv7" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv8" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv9" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv10" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+              </children>
+          </FlowPane>
+          <FlowPane prefHeight="166.0" prefWidth="1920.0">
+              <children>
+                  <ImageView fx:id="iv11" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv12" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv13" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv14" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="iv15" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+              </children>
+          </FlowPane>
+      </children>
+   </FlowPane>
+    <Button fx:id="start" text="Lancer" onAction="#handleRollButtonClick" />
+</AnchorPane>
