@@ -1,163 +1,184 @@
 package fr.melvinxalexis.machineslotproject.items;
 
-public class WinPattern {
-    private Symbols[][] winningPatterns;
+import java.util.*;
 
-    public WinPattern(Symbols[][] winningPatterns) {
-        this.winningPatterns = winningPatterns;
-    }
-    String[][] grid = {
-            {"SYMBOL_5", "SYMBOL_5", "SYMBOL_5", "SYMBOL_5", "SYMBOL_5"},
-            {"SYMBOL_9", "SYMBOL_9", "SYMBOL_9", "SYMBOL_9", "SYMBOL_9"},
-            {"SYMBOL_2", "SYMBOL_2", "SYMBOL_2", "SYMBOL_2", "SYMBOL_2"}
-    };
-
-    String[][] pattern1 = {
+public class SymbolPattern {
+    static String[][] pattern1 = {
             {"SYMBOL_A", "SYMBOL_A", "SYMBOL_A", "SYMBOL_A", "SYMBOL_A"},
             {"SYMBOL_B", "SYMBOL_B", "SYMBOL_B", "SYMBOL_B", "SYMBOL_B"},
             {"SYMBOL_C", "SYMBOL_C", "SYMBOL_C", "SYMBOL_C", "SYMBOL_C"}
     };
 
-    String[][] pattern2 = {
+    static String[][] pattern2 = {
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"}
     };
 
-    String[][] pattern3 = {
+    static String[][] pattern3 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A"}
     };
 
 
-    String[][] pattern4 = {
+    static String[][] pattern4 = {
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_A", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"}
     };
 
 
-    String[][] pattern5 = {
+    static String[][] pattern5 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_A", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A"}
     };
 
 
-    String[][] pattern6 = {
+    static String[][] pattern6 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_A", "SYMBOL_A", "SYMBOL_X"}
     };
 
 
-    String[][] pattern7 = {
+    static String[][] pattern7 = {
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_A", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"}
     };
 
 
-    String[][] pattern8 = {
+    static String[][] pattern8 = {
             {"SYMBOL_A", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_A"}
     };
 
-    String[][] pattern9 = {
+    static String[][] pattern9 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"}
     };
 
-    String[][] pattern10 = {
+    static String[][] pattern10 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"}
     };
 
-    String[][] pattern11 = {
+    static String[][] pattern11 = {
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X"}
     };
 
-    String[][] pattern12 = {
+    static String[][] pattern12 = {
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"}
     };
 
-    String[][] pattern13 = {
+    static String[][] pattern13 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A"}
     };
 
-    String[][] pattern14 = {
+    static String[][] pattern14 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"}
     };
 
-    String[][] pattern15 = {
+    static String[][] pattern15 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"}
     };
 
 
-    String[][] pattern16 = {
+    static String[][] pattern16 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"}
     };
-
-
-    String[][] pattern17 = {
+    static String[][] pattern17 = {
             {"SYMBOL_A", "SYMBOL_A", "SYMBOL_B", "SYMBOL_A", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_B", "SYMBOL_B", "SYMBOL_A", "SYMBOL_B", "SYMBOL_B"}
     };
 
-
-
-    String[][] pattern18 = {
+    static String[][] pattern18 = {
             {"SYMBOL_A", "SYMBOL_B", "SYMBOL_B", "SYMBOL_B", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_B", "SYMBOL_A", "SYMBOL_A", "SYMBOL_A", "SYMBOL_B"}
     };
 
-
-
-    String[][] pattern19 = {
+    static String[][] pattern19 = {
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X"}
     };
 
 
-
-    String[][] pattern20 = {
+    static String[][] pattern20 = {
             {"SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X"},
             {"SYMBOL_A", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_A", "SYMBOL_X", "SYMBOL_X"}
     };
 
 
-
-    String[][] pattern21 = {
+    static String[][] pattern21 = {
             {"SYMBOL_A", "SYMBOL_B", "SYMBOL_A", "SYMBOL_B", "SYMBOL_A"},
             {"SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X", "SYMBOL_X"},
             {"SYMBOL_B", "SYMBOL_A", "SYMBOL_B", "SYMBOL_A", "SYMBOL_B"}
     };
 
-    public void check() {
-        String[][] win = {
-                {"SYMBOL_5", "SYMBOL_4", "SYMBOL_3", "SYMBOL_2", "SYMBOL_1"},
-                {"SYMBOL_5", "SYMBOL_4", "SYMBOL_3", "SYMBOL_2", "SYMBOL_1"},
-                {"SYMBOL_5", "SYMBOL_4", "SYMBOL_3", "SYMBOL_2", "SYMBOL_1"}
-        };
+    private static int multiplicator;
+    private static String foundSymbol = null;
+    private static int symbolCount = 0;
+    public static  List<String[][]> patterns = Arrays.asList(
+            pattern1, pattern2, pattern3, pattern4, pattern5, pattern6, pattern8, pattern7,
+            pattern9, pattern10, pattern11, pattern12, pattern13, pattern14, pattern15, pattern16,
+            pattern17, pattern18, pattern19, pattern20, pattern21);
+
+    public static Integer getCurrentMultiplicator() {
+        return multiplicator;
     }
+
+    public static boolean isValidPattern(String[][] grid, String[][] pattern) {
+        int gridRows = grid.length;
+        int gridCols = grid[0].length;
+        int patternRows = pattern.length;
+        int patternCols = pattern[0].length;
+
+        // Iterate over each possible starting position in the grid
+        for (int i = 0; i <= gridRows - patternRows; i++) {
+            for (int j = 0; j <= gridCols - patternCols; j++) {
+                // Assume pattern matches until proven otherwise
+                boolean match = true;
+                for (int k = 0; k < patternRows; k++) {
+                    for (int l = 0; l < patternCols; l++) {
+                        if (!pattern[k][l].equals("SYMBOL_X") && !grid[i + k][j + l].equals(pattern[k][l])) {
+                            match = false;
+                            break;
+                        }
+                    }
+                    if (!match) break;
+                }
+                if (match) return true;
+            }
+        }
+        // No match found
+        return false;
+
+    }
+
+    public static boolean isConsecutivePattern(){
+
+        return false;
+    }
+
 }

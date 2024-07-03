@@ -5,32 +5,61 @@ import java.util.List;
 import java.util.Random;
 
 public class SymbolSelector {
+    public static boolean debug = false;
 
-    public static List<Symbols> getRandomSymbols(int count) {
-        List<Symbols> symbols = new ArrayList<>();
-        Random random = new Random();
+    private static final List<Symbols> symbols = List.of(
+            Symbols.SYMBOL_1, Symbols.SYMBOL_2,
+            Symbols.SYMBOL_3, Symbols.SYMBOL_4,
+            Symbols.SYMBOL_5, Symbols.SYMBOL_6,
+            Symbols.SYMBOL_7, Symbols.SYMBOL_8,
+            Symbols.SYMBOL_9);
 
-        double[] cumulativeFrequencies = new double[Symbols.values().length];
-        cumulativeFrequencies[0] = Symbols.values()[0].getFrequency();
+        public static List<Symbols> generateRandomSymbols(int count, String seed) {
+            Random random;
+            if (seed != null) {
+                random = new Random(seed.hashCode());
+            } else {
+                random = new Random();
+            }
 
-        for (int i = 1; i < Symbols.values().length; i++) {
-            cumulativeFrequencies[i] = cumulativeFrequencies[i - 1] + Symbols.values()[i].getFrequency();
-        }
+            List<Symbols> result = new ArrayList<>();
+            double[] cumulativeProbabilities = calculateCumulativeProbabilities();
 
-        for (int i = 0; i < cumulativeFrequencies.length; i++) {
-            cumulativeFrequencies[i] /= cumulativeFrequencies[cumulativeFrequencies.length - 1];
-        }
+            for (int i = 0; i < count; i++) {
+                double randomValue = random.nextDouble();
 
-        for (int i = 0; i < count; i++) {
-            double rand = random.nextDouble();
-            for (int j = 0; j < cumulativeFrequencies.length; j++) {
-                if (rand <= cumulativeFrequencies[j]) {
-                    symbols.add(Symbols.values()[j]);
-                    break;
+                boolean symbolFound = false;
+                for (int j = 0; j < cumulativeProbabilities.length; j++) {
+                    if (randomValue < cumulativeProbabilities[j]) {
+                        result.add(symbols.get(j));
+                        symbolFound = true;
+                        break;
+                    }
                 }
+
+                if (!symbolFound) {
+                    result.add(symbols.get(symbols.size() - 1));
+                }
+            }
+
+            return result;
+    }
+
+    private static double[] calculateCumulativeProbabilities() {
+        double[] cumulativeProbabilities = new double[symbols.size()];
+        double cumulativeProbability = 0.0;
+
+        for (int i = 0; i < symbols.size(); i++) {
+            cumulativeProbability += symbols.get(i).getFrequency();
+            cumulativeProbabilities[i] = cumulativeProbability;
+        }
+
+        if (cumulativeProbability > 0.0) {
+            for (int i = 0; i < cumulativeProbabilities.length; i++) {
+                cumulativeProbabilities[i] /= cumulativeProbability;
             }
         }
 
-        return symbols;
+        return cumulativeProbabilities;
     }
 }

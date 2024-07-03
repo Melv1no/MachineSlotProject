@@ -4,6 +4,7 @@ module fr.melvinxalexis.machineslotproject {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires json.simple;
 
     opens fr.melvinxalexis.machineslotproject to javafx.fxml;
     exports fr.melvinxalexis.machineslotproject;

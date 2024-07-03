@@ -4,31 +4,40 @@ import fr.melvinxalexis.machineslotproject.MachineSlotProject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 public class MainFormController {
+    @FXML
+    public static Text WinOrLoseText;
+    @FXML
+    public AnchorPane SlotsForm;
 
-    public MainFormController(){
-
-    }
     @FXML
-    private Text playerMoney;
+    private Text CurrentBetText;
     @FXML
-    private Text currentBet;
+    private Button MoreButton;
     @FXML
-    private Button more;
-    @FXML
-    private Button less;
+    private Button LessButton;
     @FXML
     public void initialize(){
-        playerMoney.setText( MachineSlotProject.player.getName() +" Money: " + String.valueOf(MachineSlotProject.player.getTokens()));
+
     }
 
-    public void lessBet(ActionEvent actionEvent) {
-        currentBet.setText("less");
+    public void onMoreButton(){
+
     }
 
-    public void moreBet(ActionEvent actionEvent) {
-        currentBet.setText("more");
+    public void onLessButton(){
+
+    }
+
+    public void setWinOrLoseText(String s){
+        WinOrLoseText.setText(s);
+    }
+
+
+    public void setCurrentBetText(String s){
+        CurrentBetText.setText(s);
     }
 }

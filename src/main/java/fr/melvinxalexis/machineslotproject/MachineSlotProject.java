@@ -8,15 +8,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+
 public class MachineSlotProject extends Application {
 
     public static Player player;
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     @Override
     public void start(Stage stage) throws IOException {
-        if(!debug)
+        if(debug){
+            player = new Player("debug");
+            launchMainApplication();
+        }else{
             showLoginPopup(stage);
+        }
     }
 
     private void showLoginPopup(Stage primaryStage) {
@@ -28,10 +33,15 @@ public class MachineSlotProject extends Application {
         try {
             Stage mainStage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(MachineSlotProject.class.getResource("MainForm.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1920,1080);
-            mainStage.setTitle("Machine Slot Project ! Melvin ****** & Alexis *******");
+            Scene scene = new Scene(fxmlLoader.load(), 1900     ,1080);
+
+
+            scene.getStylesheets().add(MachineSlotProject.class.getResource("css/styles.css").toExternalForm());
+
+            mainStage.setTitle("Machine Slot Project ! Melvin OLIVET & Alexis MOUREY");
+
             mainStage.setScene(scene);
-            mainStage.setFullScreen(true);
+            mainStage.setMaximized(true);
             mainStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,9 +49,9 @@ public class MachineSlotProject extends Application {
     }
 
     public static void main(String[] args) {
-        if(args.length !=0 && Objects.equals(args[0], "--debug")){
+        if(args.length != 1 && Objects.equals(args[0], "--debug")){
             debug = true;
-            System.out.println("ok");
+            System.out.println(args[0]);
         }else{
             debug = false;
         }

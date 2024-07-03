@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.melvinxalexis.machineslotproject.controllers.HeaderController">
+   <children>
+      <FlowPane alignment="BASELINE_LEFT" orientation="VERTICAL" prefHeight="206.0" prefWidth="484.0">
+         <children>
+            <Label fx:id="PlayerNameText" text="Player:" style="-fx-text-fill: white;">
+               <font>
+                  <Font name="Corbel" size="34.0" />
+               </font>
+            </Label>
+            <Label fx:id="PlayerMoneyText" text="Money:" style="-fx-text-fill: white;">
+               <font>
+                  <Font name="Corbel" size="34.0" />
+               </font>
+            </Label>
+            <Label fx:id="PlayerSpinText" text="Spin:" style="-fx-text-fill: white;">
+               <font>
+                  <Font name="Corbel" size="34.0" />
+               </font>
+            </Label>
+            <Label fx:id="GameInformationText" text="" style="-fx-text-fill: white;">
+               <font>
+                  <Font name="Corbel" size="24.0" />
+               </font>
+            </Label>
+         </children>
+         <effect>
+            <Bloom threshold="0.0" />
+         </effect>
+      </FlowPane>
+   </children>
+</AnchorPane>
