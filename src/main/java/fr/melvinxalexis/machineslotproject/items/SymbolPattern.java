@@ -149,31 +149,57 @@ public class SymbolPattern {
     }
 
     public static boolean isValidPattern(String[][] grid, String[][] pattern) {
-        int gridRows = grid.length;
-        int gridCols = grid[0].length;
+        int rows = grid.length;
+        int cols = grid[0].length;
         int patternRows = pattern.length;
         int patternCols = pattern[0].length;
 
-        // Iterate over each possible starting position in the grid
-        for (int i = 0; i <= gridRows - patternRows; i++) {
-            for (int j = 0; j <= gridCols - patternCols; j++) {
-                // Assume pattern matches until proven otherwise
+        // Vérifier que le pattern est plus petit ou de même taille que la grille
+        if (patternRows > rows || patternCols > cols) {
+            return false;
+        }
+
+        // Map pour stocker la correspondance des symboles spécifiques
+        Map<String, String> symbolMap = new HashMap<>();
+
+        // Parcourir la grille pour vérifier le pattern
+        for (int r = 0; r <= rows - patternRows; r++) {
+            for (int c = 0; c <= cols - patternCols; c++) {
                 boolean match = true;
-                for (int k = 0; k < patternRows; k++) {
-                    for (int l = 0; l < patternCols; l++) {
-                        if (!pattern[k][l].equals("SYMBOL_X") && !grid[i + k][j + l].equals(pattern[k][l])) {
-                            match = false;
-                            break;
+
+                // Vérifier le pattern à partir de la position (r, c)
+                for (int pr = 0; pr < patternRows; pr++) {
+                    for (int pc = 0; pc < patternCols; pc++) {
+                        String patternElement = pattern[pr][pc];
+                        String gridElement = grid[r + pr][c + pc];
+
+                        // Vérifier si le pattern correspond
+                        if (!patternElement.equals("SYMBOL_X")) {
+                            // Vérifier la correspondance symbole à symbole
+                            if (symbolMap.containsKey(patternElement)) {
+                                if (!symbolMap.get(patternElement).equals(gridElement)) {
+                                    match = false;
+                                    break;
+                                }
+                            } else {
+                                // Ajouter la correspondance symbole à symbole
+                                symbolMap.put(patternElement, gridElement);
+                            }
                         }
                     }
                     if (!match) break;
                 }
+
+                // Si on trouve un match, retourner true
                 if (match) return true;
+
+                // Réinitialiser la correspondance pour tester d'autres positions
+                symbolMap.clear();
             }
         }
-        // No match found
-        return false;
 
+        // Aucun match trouvé
+        return false;
     }
 
     public static boolean isConsecutivePattern(String[] row) {
