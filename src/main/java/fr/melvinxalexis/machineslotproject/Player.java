@@ -37,11 +37,11 @@ public class Player {
      * @param amount Le nombre de jetons à ajouter. Doit être positif.
      * @throws IllegalArgumentException si le montant est négatif.
      */
-    public void addTokens(int amount) {
+    public int addTokens(int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Le montant à ajouter doit être positif.");
         }
-        this.tokens += amount;
+        return this.tokens += amount;
     }
 
     /**
