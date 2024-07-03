@@ -120,33 +120,47 @@ public class SlotController {
         HeaderController.setPlayerMoneyText(MachineSlotProject.player.getTokens());
 
         // Génère 15 symboles aléatoires pour l'affichage.
-        List<Symbols> randomSymbols = SymbolSelector.generateRandomSymbols(15, new Date().toString());
+        final List<Symbols> randomSymbols = SymbolSelector.generateRandomSymbols(15, new Date().toString());
 
         // Désactive le bouton de spin pendant que les symboles sont en train de tourner.
         spinButton.setDisable(true);
         HeaderController.setGameInformationText("Spinning ...");
 
-        // Création de l'animation pour faire tourner les symboles.
+        // Crée l'animation des symboles
+        Timeline timeline = createSpinAnimation(randomSymbols);
+
+        // Action à exécuter une fois que l'animation de rotation est terminée.
+        timeline.setOnFinished(event -> handleSpinCompletion());
+
+        // Lance l'animation.
+        timeline.play();
+    }
+
+    /**
+     * Crée l'animation de rotation des symboles avec les `KeyFrames`.
+     *
+     * @param randomSymbols Liste des symboles à afficher.
+     * @return Un objet Timeline configuré avec l'animation.
+     */
+    private Timeline createSpinAnimation(List<Symbols> randomSymbols) {
         Timeline timeline = new Timeline();
         int numRows = 3;
         int numCols = 5;
 
         int index = 0;
-        List<Symbols> tempRandomSymbols;
 
-        // Ajoute les KeyFrames pour simuler le mouvement de rotation.
+        // Animation des symboles intermédiaires
         for (int i = 0; i < 4; i++) {
-            tempRandomSymbols = SymbolSelector.generateRandomSymbols(60, new Date().toString());
+            List<Symbols> tempRandomSymbols = SymbolSelector.generateRandomSymbols(60, new Date().toString());
             for (int col = 0; col < numCols; col++) {
                 for (int row = 0; row < numRows; row++) {
                     final int rowIndex = row;
-                    int finalCol = col;
-                    int finalIndex = index;
-                    List<Symbols> finalTempRandomSymbols = tempRandomSymbols;
+                    final int colIndex = col;
+                    final int finalIndex = index;
+                    final List<Symbols> finalTempRandomSymbols = tempRandomSymbols;
 
                     KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.05 * index), event -> {
-                        int imageIndex = rowIndex * numCols + finalCol;
-                        imageViews.get(imageIndex).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(finalTempRandomSymbols.get(finalIndex).getImagePath()))));
+                        updateImageView(rowIndex, colIndex, finalTempRandomSymbols.get(finalIndex % finalTempRandomSymbols.size()));
                     });
                     timeline.getKeyFrames().add(keyFrame);
                     index++;
@@ -154,48 +168,71 @@ public class SlotController {
             }
         }
 
-        // Définit les images finales après l'animation de rotation.
+        // Mise à jour avec les symboles finaux
         for (int col = 0; col < numCols; col++) {
             for (int row = 0; row < numRows; row++) {
                 final int rowIndex = row;
-                int finalCol = col;
-                KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.1), event -> {
-                    int imageIndex = rowIndex * numCols + finalCol;
-                    imageViews.get(imageIndex).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(randomSymbols.get(imageIndex).getImagePath()))));
-                    symbolMatrix[rowIndex][finalCol] = randomSymbols.get(imageIndex).name();
+                final int colIndex = col;
+                KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.05 * index + 0.5), event -> {
+                    int imageIndex = rowIndex * numCols + colIndex;
+                    updateImageView(rowIndex, colIndex, randomSymbols.get(imageIndex));
+                    symbolMatrix[rowIndex][colIndex] = randomSymbols.get(imageIndex).name();
                 });
                 timeline.getKeyFrames().add(keyFrame);
                 index++;
             }
         }
 
-        // Action à exécuter une fois que l'animation de rotation est terminée.
-        timeline.setOnFinished(event -> {
-            int moneyEarned = 0;
+        return timeline;
+    }
 
-            // Vérifie chaque pattern pour déterminer si le joueur a gagné.
-            for (String[][] pattern : SymbolPattern.patterns) {
-                if (!SymbolPattern.isValidPattern(symbolMatrix, pattern)) {
-                    HeaderController.setGameInformationText("Bad luck, nothing");
-                } else {
-                    HeaderController.setGameInformationText("You win money!");
-                    System.out.println("money");
-                    MachineSlotProject.player.addTokens(1);
-                }
+
+    /**
+     * Met à jour l'ImageView pour une position spécifique dans la grille.
+     *
+     * @param rowIndex L'index de la ligne.
+     * @param colIndex L'index de la colonne.
+     * @param symbol Le symbole à afficher.
+     */
+    private void updateImageView(int rowIndex, int colIndex, Symbols symbol) {
+        int imageIndex = rowIndex * 5 + colIndex;
+        imageViews.get(imageIndex).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(symbol.getImagePath()))));
+    }
+
+    /**
+     * Gère la logique après la fin de l'animation de rotation.
+     */
+    private void handleSpinCompletion() {
+        int moneyEarned = 0;
+
+        printSymbolMatrix();
+
+        // Vérifie chaque pattern pour déterminer si le joueur a gagné.
+        for (String[][] pattern : SymbolPattern.patterns) {
+            if (!SymbolPattern.isValidPattern(symbolMatrix, pattern)) {
+                HeaderController.setGameInformationText("Bad luck, nothing");
+            } else {
+                HeaderController.setGameInformationText("You win money!");
+                System.out.println("money");
+                MachineSlotProject.player.addTokens(1);
             }
+        }
 
-            // Met à jour l'affichage de l'argent du joueur.
-            HeaderController.setPlayerMoneyText(MachineSlotProject.player.getTokens());
+        // Vérifie les patterns consécutifs
+        for (String[] row : symbolMatrix) {
+            if (SymbolPattern.isConsecutivePattern(row)) {
+                System.out.println("consecutive pattern");
+            }
+        }
 
-            // Met à jour la base de données avec le nouvel état financier du joueur.
-            NoSqlConnector.updateMoney(MachineSlotProject.player.getName(), MachineSlotProject.player.getTokens());
+        // Met à jour l'affichage de l'argent du joueur.
+        HeaderController.setPlayerMoneyText(MachineSlotProject.player.getTokens());
 
-            // Réactive le bouton de spin.
-            spinButton.setDisable(false);
-        });
+        // Met à jour la base de données avec le nouvel état financier du joueur.
+        NoSqlConnector.updateMoney(MachineSlotProject.player.getName(), MachineSlotProject.player.getTokens());
 
-        // Lance l'animation.
-        timeline.play();
+        // Réactive le bouton de spin.
+        spinButton.setDisable(false);
     }
 
     /**
@@ -240,5 +277,16 @@ public class SlotController {
 
         // Met à jour l'affichage de la mise.
         BetText.setText(String.valueOf(bet));
+    }
+
+    public void printSymbolMatrix() {
+        System.out.println("Current Symbol Matrix:");
+        for (String[] row : symbolMatrix) {
+            for (String symbol : row) {
+                System.out.print(symbol + " ");
+            }
+            System.out.println(); // Nouvelle ligne après chaque ligne de la matrice
+        }
+        System.out.println(); // Nouvelle ligne après toute la matrice
     }
 }
