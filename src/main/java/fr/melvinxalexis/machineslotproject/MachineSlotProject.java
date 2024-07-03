@@ -14,6 +14,17 @@ public class MachineSlotProject extends Application {
     public static Player player;
     public static boolean debug = false;
 
+    public static boolean isFreeTokensAvailable(Player player) {
+
+        if(NoSqlConnector.hasClaimedTokensToday(player.getName()))
+            return false;
+
+        NoSqlConnector.setClaimTokensToday(player.getName());
+        NoSqlConnector.updateMoney(player.getName(),player.addTokens(50000));
+
+        return false;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         if(debug){

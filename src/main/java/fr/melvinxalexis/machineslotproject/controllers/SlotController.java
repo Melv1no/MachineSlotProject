@@ -17,6 +17,8 @@ import javafx.util.Duration;
 
 import java.util.*;
 
+import static fr.melvinxalexis.machineslotproject.MachineSlotProject.player;
+
 public class SlotController {
     // Label affichant le montant de la mise actuelle.
     public Label BetText;
@@ -108,16 +110,21 @@ public class SlotController {
      *
      * @param actionEvent L'événement de la souris déclenché par le clic.
      */
-    public void onSpinButton(MouseEvent actionEvent) {
+    public void onSpinButton(MouseEvent actionEvent) throws InterruptedException {
         // Vérifie si le joueur a assez d'argent pour miser.
-        if (!MachineSlotProject.player.hasMoney(bet)) {
+        if (!player.hasMoney(bet)) {
             HeaderController.setGameInformationText("You don't have enough money");
             return;
         }
+        if(MachineSlotProject.isFreeTokensAvailable(player)){
+            HeaderController.setGameInformationText("Daily BONUS of 50 000 tokens !");
+            Thread.sleep(500);
+            HeaderController.setPlayerMoneyText(player.getTokens());
+        }
 
         // Déduit la mise du montant total de l'argent du joueur.
-        MachineSlotProject.player.subtractTokens(bet);
-        HeaderController.setPlayerMoneyText(MachineSlotProject.player.getTokens());
+        player.subtractTokens(bet);
+        HeaderController.setPlayerMoneyText(player.getTokens());
 
         // Génère 15 symboles aléatoires pour l'affichage.
         final List<Symbols> randomSymbols = SymbolSelector.generateRandomSymbols(15, new Date().toString());
@@ -213,8 +220,8 @@ public class SlotController {
                 HeaderController.setGameInformationText("Bad luck, nothing");
             } else {
                 HeaderController.setGameInformationText("You win money!");
-                System.out.println("money");
-                MachineSlotProject.player.addTokens(1);
+                System.out.println("moneymoneymoneymoneymoneymoneymoneymoneymoneymoney");
+                player.addTokens(1000000);
             }
         }
 
@@ -226,12 +233,12 @@ public class SlotController {
         }
         if(moneyEarned != 0 )
             HeaderController.setGameInformationText("You have win "+ moneyEarned +" money!");
-            HeaderController.setPlayerMoneyText(MachineSlotProject.player.addTokens(moneyEarned));
+            HeaderController.setPlayerMoneyText(player.addTokens(moneyEarned));
             moneyEarned = 0;
 
 
         // Met à jour la base de données avec le nouvel état financier du joueur.
-        NoSqlConnector.updateMoney(MachineSlotProject.player.getName(), MachineSlotProject.player.getTokens());
+        NoSqlConnector.updateMoney(player.getName(), player.getTokens());
 
         // Réactive le bouton de spin.
         spinButton.setDisable(false);

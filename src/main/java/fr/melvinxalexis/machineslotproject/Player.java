@@ -9,7 +9,7 @@ public class Player {
     private int tokens;         // Nombre de jetons possédés par le joueur.
     private int totalWins;      // Nombre total de victoires.
     private int totalSpins;     // Nombre total de tours de jeu.
-    public static final int DEFAULT_MONEY = 10000;
+    public static final int DEFAULT_MONEY = 200000;
 
     /**
      * Constructeur pour initialiser un joueur avec un nom.
@@ -23,7 +23,7 @@ public class Player {
             throw new IllegalArgumentException("Le nom du joueur ne peut pas être null ou vide.");
         }
         this.name = name;
-        this.tokens = 10000; // Initialisation des jetons à 10,000.
+        this.tokens = DEFAULT_MONEY;
     }
 
     public Player(String name, int tokens) {

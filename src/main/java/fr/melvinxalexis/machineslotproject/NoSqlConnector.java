@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @SuppressWarnings("ALL")
 public class NoSqlConnector {
@@ -49,33 +51,6 @@ public class NoSqlConnector {
     }
 
     /**
-     * Enregistre un nouvel utilisateur dans la base de données.
-     *
-     * @param username Le nom d'utilisateur à enregistrer.
-     * @param password Le mot de passe de l'utilisateur à enregistrer.
-     * @param money    Le montant initial d'argent de l'utilisateur.
-     * @return true si l'utilisateur a été enregistré avec succès, false si l'utilisateur existe déjà.
-     */
-    public boolean registerUser(String username, String password, int money) {
-        if (isUserAlreadyExist(username)) {
-            return false;
-        }
-
-        String hashedPassword = hashPassword(password);
-
-        JSONObject userData = new JSONObject();
-        userData.put("username", username);
-        userData.put("hashedPassword", hashedPassword);
-        userData.put("money", money);
-        userData.put("lastLogin", "");
-
-        database.put(username, userData);
-        saveDatabase();
-
-        return true;
-    }
-
-    /**
      * Vérifie les informations de connexion de l'utilisateur.
      *
      * @param username Le nom d'utilisateur à vérifier.
@@ -95,6 +70,35 @@ public class NoSqlConnector {
     }
 
     /**
+     * Enregistre un nouvel utilisateur dans la base de données.
+     *
+     * @param username Le nom d'utilisateur à enregistrer.
+     * @param password Le mot de passe de l'utilisateur à enregistrer.
+     * @param money    Le montant initial d'argent de l'utilisateur.
+     * @return true si l'utilisateur a été enregistré avec succès, false si l'utilisateur existe déjà.
+     */
+    public boolean registerUser(String username, String password, int money) {
+        if (isUserAlreadyExist(username)) {
+            return false;
+        }
+
+        String hashedPassword = hashPassword(password);
+
+        JSONObject userData = new JSONObject();
+        userData.put("username", username);
+        userData.put("hashedPassword", hashedPassword);
+        userData.put("money", money);
+        userData.put("lastLogin", "");
+        userData.put("asClaimFreeTokensToday", false);
+        userData.put("DateOfLastClaim", "");
+
+        database.put(username, userData);
+        saveDatabase();
+
+        return true;
+    }
+
+    /**
      * Vérifie si un utilisateur existe déjà dans la base de données.
      *
      * @param username Le nom d'utilisateur à vérifier.
@@ -102,6 +106,60 @@ public class NoSqlConnector {
      */
     public boolean isUserAlreadyExist(String username) {
         return database.containsKey(username);
+    }
+
+    /**
+     * Vérifie si l'utilisateur a déjà réclamé ses tokens aujourd'hui.
+     *
+     * @param username Le nom d'utilisateur à vérifier.
+     * @return true si l'utilisateur a déjà réclamé aujourd'hui, false sinon.
+     */
+    public static boolean hasClaimedTokensToday(String username) {
+        JSONObject userData = (JSONObject) database.get(username);
+        if (userData == null) {
+            return false;
+        }
+
+        boolean asClaimed = (boolean) userData.getOrDefault("asClaimFreeTokensToday", false);
+        String lastClaimDateStr = (String) userData.getOrDefault("DateOfLastClaim", "");
+
+        // Si l'utilisateur a déjà réclamé aujourd'hui et la date de dernière réclamation est aujourd'hui
+        if (asClaimed && isToday(lastClaimDateStr)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Met à jour l'état de réclamation des tokens d'un utilisateur à true.
+     *
+     * @param username Le nom d'utilisateur dont l'état doit être mis à jour.
+     */
+    public static void setClaimTokensToday(String username) {
+        JSONObject userData = (JSONObject) database.get(username);
+        if (userData != null) {
+            userData.put("asClaimFreeTokensToday", true);
+            userData.put("DateOfLastClaim", LocalDateTime.now().toString());
+            saveDatabase();
+        }
+    }
+
+    /**
+     * Vérifie si une date donnée est aujourd'hui.
+     *
+     * @param dateStr La date sous forme de chaîne de caractères.
+     * @return true si la date correspond à aujourd'hui, false sinon.
+     */
+    private static boolean isToday(String dateStr) {
+        if (dateStr.isEmpty()) {
+            return false;
+        }
+
+        LocalDateTime lastClaimDate = LocalDateTime.parse(dateStr);
+        LocalDateTime now = LocalDateTime.now();
+
+        return lastClaimDate.toLocalDate().isEqual(now.toLocalDate());
     }
 
     /**
@@ -139,7 +197,6 @@ public class NoSqlConnector {
             saveDatabase();
         }
     }
-
 
     /**
      * Hash le mot de passe en utilisant l'algorithme MD5.
