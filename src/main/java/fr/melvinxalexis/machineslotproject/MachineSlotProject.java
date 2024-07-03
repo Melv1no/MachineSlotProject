@@ -49,7 +49,7 @@ public class MachineSlotProject extends Application {
     }
 
     public static void main(String[] args) {
-        if(args.length != 1 && Objects.equals(args[0], "--debug")){
+        if(args.length != 0 && Objects.equals(args[0], "--debug")){
             debug = true;
             System.out.println(args[0]);
         }else{
