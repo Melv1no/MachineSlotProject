@@ -221,12 +221,14 @@ public class SlotController {
         // Vérifie les patterns consécutifs
         for (String[] row : symbolMatrix) {
             if (SymbolPattern.isConsecutivePattern(row)) {
-                System.out.println("consecutive pattern");
+                moneyEarned += SymbolPattern.getCurrentMultiplicator() * bet;
             }
         }
+        if(moneyEarned != 0 )
+            HeaderController.setGameInformationText("You have win "+ moneyEarned +" money!");
+            HeaderController.setPlayerMoneyText(MachineSlotProject.player.addTokens(moneyEarned));
+            moneyEarned = 0;
 
-        // Met à jour l'affichage de l'argent du joueur.
-        HeaderController.setPlayerMoneyText(MachineSlotProject.player.getTokens());
 
         // Met à jour la base de données avec le nouvel état financier du joueur.
         NoSqlConnector.updateMoney(MachineSlotProject.player.getName(), MachineSlotProject.player.getTokens());

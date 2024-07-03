@@ -140,6 +140,7 @@ public class NoSqlConnector {
         }
     }
 
+
     /**
      * Hash le mot de passe en utilisant l'algorithme MD5.
      *

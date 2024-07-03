@@ -176,7 +176,27 @@ public class SymbolPattern {
 
     }
 
-    public static boolean isConsecutivePattern(){
+    public static boolean isConsecutivePattern(String[] row) {
+        if (row == null || row.length == 0) {
+            return false;
+        }
+
+        int count = 1; // Compte au moins une occurrence pour le premier élément
+
+        for (int i = 1; i < row.length; i++) {
+            System.out.println(row[i]);
+            if (row[i].equals(row[i - 1])) {
+                count++;
+                // Vérifier si le compte atteint 3, 4 ou 5
+                if (count == 3 || count == 4 || count == 5) {
+                    multiplicator = Symbols.getMultiplierBySymbolName(row[i],count);
+                    System.out.println(row[i] + " found at " + count + " time mutiplicator is " + multiplicator);
+                    return true;
+                }
+            } else {
+                count = 1; // Réinitialiser le compteur si l'élément n'est pas consécutif
+            }
+        }
 
         return false;
     }

@@ -14,9 +14,9 @@ public enum Symbols {
     SYMBOL_6("/symbols/Symbol_6.png", 5, 4, 2, 1.0 / 16),
     SYMBOL_7("/symbols/Symbol_7.png", 5, 4, 2, 1.0 / 16),
     SYMBOL_8("/symbols/Symbol_8.png", 5, 4, 2, 1.0 / 16),
+    SYMBOL_9("/symbols/Symbol_9.png", 5, 4, 2, 1.0 / 3),
 
     // *** Symboles spéciaux ***
-    SYMBOL_9("/symbols/Symbol_9.png", 5, 4, 2, 1.0 / 3),
     SYMBOL_NULL("/symbols/Symbol_Null.png", 5, 4, 2, 1.0 / 3),
     SYMBOL_SPIN("/symbols/Symbol_Spin.png", 5, 4, 2, 1.0 / 3),
     SYMBOL_MORE("/symbols/Symbol_More.png", 5, 4, 2, 1.0 / 3),
